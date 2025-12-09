@@ -1,12 +1,3 @@
-好的！為您準備了一份專業、結構清晰的 $\text{README.md}$ 檔案內容，您可以直接複製並貼到 $\text{GitHub}$ 專案中使用。
-
-這份文件涵蓋了環境建置、操作指南，以及目前爬蟲專案的成果和核心功能。
-
------
-
-## 📄 README.md 內容
-
-```markdown
 # 🍜 EatingWell Quick & Easy 食譜爬蟲專案 (Recipe Scraper)
 
 ## 🌟 專案簡介
@@ -145,6 +136,3 @@ salmon_recipes.to_csv('data/salmon_recipes_filtered.csv', index=False, encoding=
 ### 3\. 目前成果總結
 
 本次爬取已成功收集 **460 份** 來自 EatingWell Quick & Easy 分類的單一食譜數據。
-
-```
-```
