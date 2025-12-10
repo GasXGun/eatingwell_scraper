@@ -1,6 +1,6 @@
-# 🍜 EatingWell Quick & Easy 食譜爬蟲專案 (Recipe Scraper)
+# EatingWell Quick & Easy 食譜爬蟲專案 (Recipe Scraper)
 
-## 🌟 專案簡介
+## 簡介
 
 此專案是使用 Python 實作的網頁爬蟲程式，專門用於抓取 [EatingWell 網站](https://www.eatingwell.com) 中 **"Quick & Easy Healthy Recipes"** 分類下的所有食譜資料。
 
@@ -81,7 +81,7 @@ python scraper.py
   * **檔案名稱：** `eatingwell_quick_easy_recipes_full.json`
   * **數據量：** 預期收集到約 **460 份**食譜。
 
-### 3\. 如何分析數據 (使用 Pandas)
+### 3\. 分析 (使用 Pandas)
 
 建議您將數據載入到 Pandas DataFrame 進行查詢，這比直接操作 JSON 字典更高效。
 
@@ -111,7 +111,7 @@ salmon_recipes.to_csv('data/salmon_recipes_filtered.csv', index=False, encoding=
 
 -----
 
-## 🎯 爬蟲功能與數據成果 (Features & Data)
+## 爬蟲與數據成果 (Features & Data)
 
 ### 1\. 爬蟲核心功能
 
@@ -133,6 +133,6 @@ salmon_recipes.to_csv('data/salmon_recipes_filtered.csv', index=False, encoding=
 | **Instructions** | List [String] | 烹飪步驟 (每一步驟為一個字串) |
 | **Total\_Time\_Raw** | String | 總烹飪時間 (ISO 8601 格式，如 $\text{PT20M}$) |
 
-### 3\. 目前成果總結
+### 3\. 目前總結
 
 本次爬取已成功收集 **460 份** 來自 EatingWell Quick & Easy 分類的單一食譜數據。
