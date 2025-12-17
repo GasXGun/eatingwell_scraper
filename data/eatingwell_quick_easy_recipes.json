@@ -1,215 +1,549 @@
-import requests
-from bs4 import BeautifulSoup
-import json
-import time
-import os
-
-# 設定 HTTP 請求標頭 (模擬瀏覽器)
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+{
+    "https://www.eatingwell.com/artichoke-white-bean-dip-11848965": {
+        "URL": "https://www.eatingwell.com/artichoke-white-bean-dip-11848965",
+        "Title": "Creamy Artichoke &amp; White Bean Dip Is a High-Protein Appetizer You’ll Love",
+        "Description": "This creamy Artichoke &amp; White Bean Dip brings all the cheesy comfort of a classic baked appetizer, with a plant protein–packed twist!",
+        "Ingredients": [
+            "1 (10-ounce) jar artichoke hearts in water, rinsed (about 2 cups)",
+            "3 medium cloves garlic",
+            "2 (15-ounce) cans no-salt-added cannellini beans, rinsed (about 4 cups)",
+            "1 cup nonfat plain strained (Greek-style) yogurt",
+            "4 ounces reduced-fat cream cheese, at room temperature",
+            "¼ cup grated Parmesan cheese",
+            "2 teaspoons finely chopped fresh thyme, plus leaves for garnish",
+            "2 teaspoons onion powder",
+            "½ teaspoon ground pepper",
+            "¾ cup shredded Gruyère cheese, divided",
+            "Multicolored carrots, Belgian endive leaves, Persian cucumbers and/or pita chips, for serving (optional)"
+        ],
+        "Instructions": [
+            "Preheat oven to 350°F with rack in middle position. Combine rinsed artichoke hearts and 3 garlic cloves in a food processor; process until finely chopped, about 1 minute, scraping down the sides as needed. Transfer to a 12-inch cast-iron or stainless-steel skillet.",
+            "Combine rinsed cannellini beans, 1 cup yogurt, 4 ounces cream cheese, ¼ cup Parmesan, 2 teaspoons thyme, 2 teaspoons onion powder and ½ teaspoon pepper in the food processor. Process until smooth, about 2 minutes, scraping down the sides as needed. Add to the skillet with the artichoke mixture; stir to combine. Fold in ¼ cup Gruyère and spread evenly. Top with the remaining ½ cup Gruyère.",
+            "Bake until the cheese is melted, about 5 minutes. Increase oven temperature to broil; broil until the cheese is golden brown, about 7 minutes.",
+            "Garnish with thyme leaves, if desired. Serve with carrots, endive, cucumbers and/or pita chips, if desired."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/20-minute-chickpea-soup-11816278": {
+        "URL": "https://www.eatingwell.com/20-minute-chickpea-soup-11816278",
+        "Title": "20-Minute Chickpea Soup",
+        "Description": "When dinner needs to happen fast, turn to this creamy chickpea soup that&#39;s pulled together in just 20 minutes and features chickpeas and sweet potatoes.",
+        "Ingredients": [
+            "2 tablespoons extra-virgin olive oil",
+            "1 medium yellow onion, chopped (about 1½ cups)",
+            "3 large cloves garlic, finely chopped (about 2 tablespoons)",
+            "2 tablespoons no-salt-added taco seasoning",
+            "⅛ teaspoon salt",
+            "4 cups vegetable broth",
+            "2 (15-ounce) cans no-salt-added chickpeas, rinsed (about 3 cups)",
+            "2 small sweet potatoes, scrubbed and chopped (about 2 cups)",
+            "1 (14.5-ounce) can no-salt-added fire-roasted diced tomatoes",
+            "1 (8-ounce) package cream cheese, softened",
+            "1 (5-ounce) package baby spinach (about 5 packed cups)",
+            "Fresh cilantro leaves for garnish (optional)",
+            "Tri-colored tortilla strips for garnish (optional)"
+        ],
+        "Instructions": [
+            "Heat 2 tablespoons oil in a large saucepan over high heat. Add chopped onion, chopped garlic, 2 tablespoons taco seasoning and ⅛ teaspoon salt. Cook, stirring often, until fragrant and the onion starts to soften, 3 to 5 minutes.",
+            "Stir in 4 cups broth, the rinsed chickpeas, chopped sweet potatoes and diced tomatoes. Cover and bring to a boil over high heat. Reduce heat to maintain a lively simmer; cook, covered and stirring occasionally, until the sweet potatoes are tender, 8 to 10 minutes.",
+            "Stir in the softened cream cheese; return to a lively simmer. Stir in 5 ounces baby spinach; cook until wilted.",
+            "Divide the soup among 6 bowls. Garnish with cilantro and tortilla strips, if desired."
+        ],
+        "Total_Time_Raw": "PT20M"
+    },
+    "https://www.eatingwell.com/orange-peach-chia-seed-smoothie-11817673": {
+        "URL": "https://www.eatingwell.com/orange-peach-chia-seed-smoothie-11817673",
+        "Title": "Orange-Peach Chia Seed Smoothie",
+        "Description": "This smoothie is a bright way to start your day. Sweet oranges and frozen peaches are blended with Greek-style yogurt and sweetened naturally by Medjool dates.",
+        "Ingredients": [
+            "1 cup orange juice, chilled",
+            "½ cup whole-milk plain strained (Greek-style) yogurt",
+            "2 cups orange segments (from 2 small oranges)",
+            "1 cup frozen sliced peaches",
+            "¼ cup chopped pitted Medjool dates (about 3 dates)",
+            "2 tablespoons chia seeds",
+            "½ teaspoon vanilla extract",
+            "⅛ teaspoon salt"
+        ],
+        "Instructions": [
+            "Combine 1 cup orange juice, ½ cup yogurt, 2 cups orange segments, 1 cup peaches, ¼ cup chopped dates, 2 tablespoons chia seeds, ½ teaspoon vanilla and ⅛ teaspoon salt in a blender. Blend on high speed until smooth, about 1 minute. Divide between 2 glasses."
+        ],
+        "Total_Time_Raw": "PT10M"
+    },
+    "https://www.eatingwell.com/brussels-sprouts-kale-pear-salad-11813855": {
+        "URL": "https://www.eatingwell.com/brussels-sprouts-kale-pear-salad-11813855",
+        "Title": "Brussels Sprouts, Kale &amp; Pear Salad",
+        "Description": "This crisp and colorful salad celebrates the best of cool-weather produce, including Brussels sprouts, kale, pears and pomegranate seeds.",
+        "Ingredients": [
+            "4 tablespoons cider vinegar",
+            "1½ tablespoons pure maple syrup",
+            "2 teaspoons country-style Dijon mustard",
+            "½ teaspoon salt",
+            "½ teaspoon coarsely ground pepper",
+            "2 small cloves garlic, grated (about ¼ teaspoon)",
+            "5 tablespoons extra-virgin olive oil",
+            "1 medium bunch kale, stemmed and chopped (about 10 cups)",
+            "10 ounces Brussels sprouts, trimmed and thinly sliced (about 4 cups)",
+            "1 medium red pear, sliced (about 2 cups)",
+            "½ cup pomegranate arils",
+            "¼ cup candied walnuts, chopped",
+            "1 cup shaved Parmesan cheese, divided"
+        ],
+        "Instructions": [
+            "Whisk 4 tablespoons vinegar, 1½ tablespoons maple syrup, 2 teaspoons mustard, ½ teaspoon salt, ½ teaspoon pepper and the grated garlic together in a large bowl. While whisking, gradually add 5 tablespoons oil; whisk until emulsified.",
+            "Add chopped kale and sliced Brussels sprouts to the bowl. Massage the mixture with clean hands until the kale is bright green and reduced in volume by about half, about 1 minute.",
+            "Add pear slices, ½ cup pomegranate arils, the chopped walnuts and ¾ cup Parmesan; toss to combine. Top with the remaining ¼ cup Parmesan."
+        ],
+        "Total_Time_Raw": "PT20M"
+    },
+    "https://www.eatingwell.com/high-protein-orange-mango-flaxseed-shake-11831824": {
+        "URL": "https://www.eatingwell.com/high-protein-orange-mango-flaxseed-shake-11831824",
+        "Title": "This Creamy Orange-Mango Flaxseed Shake Delivers 17 Grams of Protein",
+        "Description": "Bright, creamy and packed with staying power, this protein shake blends juicy mandarin, tropical mango and tangy strained yogurt into a sunshine-hued drink.",
+        "Ingredients": [
+            "1 large mandarin or clementine orange (6½ ounces), peeled, plus slices for garnish",
+            "1 cup frozen mango chunks (about 5 ounces)",
+            "1¼ cups plain reduced-fat strained (Greek-style) yogurt",
+            "½ cup ice cubes",
+            "½ cup water",
+            "3 tablespoons ground flaxseed (flaxmeal)",
+            "½ teaspoon vanilla extract"
+        ],
+        "Instructions": [
+            "Combine 1 peeled orange, 1 cup mango, 1¼ cups yogurt, ½ cup ice, ½ cup water, 3 tablespoons ground flaxseed and ½ teaspoon vanilla in a blender. Blend until smooth, about 1 minute.",
+            "Divide the shake between 2 tall glasses. Garnish with orange slices, if desired."
+        ],
+        "Total_Time_Raw": "PT5M"
+    },
+    "https://www.eatingwell.com/one-pan-chicken-florentine-11809129": {
+        "URL": "https://www.eatingwell.com/one-pan-chicken-florentine-11809129",
+        "Title": "One-Pan Chicken Florentine",
+        "Description": "Classic chicken Florentine—creamy spinach served alongside sautéed chicken—is a fast and easy meal. Plus it’s made in one pan for quick cleanup.",
+        "Ingredients": [
+            "2 tablespoons extra-virgin olive oil, divided",
+            "1 pound chicken breast, thinly sliced",
+            "½ teaspoon salt, divided",
+            "½ teaspoon ground pepper, divided",
+            "¼ cup finely chopped shallot",
+            "2 large cloves garlic, minced",
+            "⅓ cup dry white wine",
+            "1 pound baby spinach",
+            "⅓ cup heavy cream",
+            "2 teaspoons cornstarch"
+        ],
+        "Instructions": [
+            "Heat 1 tablespoon oil in a large skillet over medium-high heat. Season sliced chicken with ¼ teaspoon each salt and pepper. Add to the pan and cook, turning once, until just cooked through, 5 to 7 minutes. Transfer to a plate and tent with foil to keep warm.",
+            "Reduce heat to medium. Add the remaining 1 tablespoon oil, ¼ cup shallot and the minced garlic to the pan. Cook, stirring, until fragrant, about 30 seconds. Add ⅓ cup wine, scraping up any browned bits. Add 1 pound baby spinach in batches; cook, stirring often, until wilted, 3 to 5 minutes.",
+            "In a measuring cup, whisk ⅓ cup cream, 2 teaspoons cornstarch and the remaining ¼ teaspoon each salt and pepper. Add to the pan with the spinach; cook, stirring frequently, until thickened, about 2 minutes. Serve with the chicken."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/roasted-cauliflower-salad-with-lemon-shallot-vinaigrette-11838144": {
+        "URL": "https://www.eatingwell.com/roasted-cauliflower-salad-with-lemon-shallot-vinaigrette-11838144",
+        "Title": "Roasted Cauliflower Salad with Lemon-Shallot Vinaigrette",
+        "Description": "This roasted cauliflower salad with lemon-shallot vinaigrette is an easy side dish that can be served warm or at room temperature.",
+        "Ingredients": [
+            "2 small heads cauliflower, cut into 1-inch florets (about 6 cups)",
+            "2 cups chopped butternut squash (about ¾-inch pieces)",
+            "3 tablespoons extra-virgin olive oil, divided",
+            "½ teaspoon salt, divided",
+            "½ teaspoon ground pepper, divided",
+            "2 tablespoons finely chopped shallot",
+            "2 tablespoons lemon juice",
+            "1 tablespoon champagne vinegar",
+            "1 teaspoon honey",
+            "1 teaspoon Dijon mustard",
+            "2 cups loosely packed arugula",
+            "¼ cup crumbled goat cheese",
+            "2 tablespoons finely chopped pecans"
+        ],
+        "Instructions": [
+            "Preheat oven to 450°F. Toss cauliflower florets, 2 cups squash, 1 tablespoon oil, ¼ teaspoon salt and ¼ teaspoon pepper on a large rimmed baking sheet until evenly coated.",
+            "Roast until the vegetables are tender and browned in some spots, about 15 minutes.",
+            "Meanwhile, combine 2 tablespoons shallot, 2 tablespoons lemon juice, 1 tablespoon vinegar, 1 teaspoon honey, 1 teaspoon mustard and the remaining 2 tablespoons oil, ¼ teaspoon salt and ¼ teaspoon pepper in a small bowl; whisk well.",
+            "Place 2 cups arugula and the roasted vegetables in a large serving bowl; toss to combine. Top with ¼ cup goat cheese and 2 tablespoons chopped pecans. Drizzle with the vinaigrette."
+        ],
+        "Total_Time_Raw": "PT25M"
+    },
+    "https://www.eatingwell.com/lemon-turmeric-cabbage-white-bean-soup-11813670": {
+        "URL": "https://www.eatingwell.com/lemon-turmeric-cabbage-white-bean-soup-11813670",
+        "Title": "Lemon-Turmeric Cabbage &amp; White Bean Soup",
+        "Description": "This cozy soup turns humble ingredients into a bowl of golden comfort. Tender cabbage and cannellini beans simmer with aromatic spices for depth.",
+        "Ingredients": [
+            "2 tablespoons extra-virgin olive oil",
+            "1 cup chopped onion",
+            "1/2 cup halved and sliced carrot",
+            "3 cloves garlic, minced",
+            "4 cups coarsely chopped green cabbage",
+            "1 teaspoon ground turmeric",
+            "1 teaspoon sweet paprika",
+            "1 teaspoon dried dill",
+            "1/2 teaspoon kosher salt",
+            "1/4 teaspoon ground pepper",
+            "4 cups low-sodium vegetable broth",
+            "1 (15-ounce) can no-salt-added cannellini beans, rinsed",
+            "2 tablespoons lemon juice"
+        ],
+        "Instructions": [
+            "Heat 2 tablespoons oil in a large saucepan over medium heat. Add 1 cup onion and the sliced carrot; cook, stirring occasionally, for 2 minutes. Add minced garlic; cook, stirring occasionally, for 1 minute. Add 4 cups cabbage, 1 teaspoon each turmeric, paprika, dill and salt and ¼ teaspoon pepper; cook, stirring occasionally, for 2 minutes. Add 4 cups broth and the rinsed beans; increase heat to high and bring to a boil.",
+            "Reduce heat to maintain a lively simmer and cook, partially covered, until the vegetables are tender, 12 to 15 minutes. Remove from heat and stir in 2 tablespoons lemon juice."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/cabbage-salad-with-bacon-11846667": {
+        "URL": "https://www.eatingwell.com/cabbage-salad-with-bacon-11846667",
+        "Title": "Cabbage Salad with Bacon Is a Quick &amp; Simple Side",
+        "Description": "This warm cabbage salad features crisp, smoky bacon while its rendered drippings are whisked into an apple-cider vinaigrette that coats the cabbage.",
+        "Ingredients": [
+            "8 slices bacon (about 6 ounces), chopped",
+            "6 tablespoons cider vinegar",
+            "4 teaspoons country Dijon mustard",
+            "2 teaspoons honey",
+            "½ teaspoon ground pepper",
+            "⅛ teaspoon salt",
+            "1 small head green cabbage (1½ pounds), shredded (about 9 cups)"
+        ],
+        "Instructions": [
+            "Cook chopped bacon in a large skillet over medium-low heat, stirring often, until crisp, 12 to 14 minutes. Transfer to a large paper towel-lined plate; reserve bacon grease (you should have about 6 tablespoons; add extra-virgin olive oil to reach that amount if needed).",
+            "Whisk 6 tablespoons vinegar, 4 teaspoons mustard, 2 teaspoons honey, ½ teaspoon pepper and ⅛ teaspoon salt in a large bowl. Gradually whisk in the reserved bacon grease.",
+            "Add shredded cabbage and the drained bacon; toss until evenly coated."
+        ],
+        "Total_Time_Raw": "PT20M"
+    },
+    "https://www.eatingwell.com/roasted-cauliflower-salad-with-lemon-garlic-vinaigrette-11795194": {
+        "URL": "https://www.eatingwell.com/roasted-cauliflower-salad-with-lemon-garlic-vinaigrette-11795194",
+        "Title": "Roasted Cauliflower Salad with Lemon-Garlic Vinaigrette",
+        "Description": "This roasted cauliflower salad is a flavorful side dish that pairs with just about anything. he cauliflower is roasted alongside sweet bell pepper until golden.",
+        "Ingredients": [
+            "6 cups cauliflower florets",
+            "1 small red bell pepper, sliced (about 1 cup)",
+            "5 tablespoons extra-virgin olive oil, divided",
+            "½ teaspoon salt, divided",
+            "½ teaspoon ground pepper, divided",
+            "2 tablespoons lemon juice",
+            "1 small clove garlic, grated (¼ teaspoon)",
+            "2 teaspoons honey",
+            "½ teaspoon Dijon mustard",
+            "2 packed cups spring mix salad greens ",
+            "½ cup sliced red onion",
+            "¼ cup chopped mixed fresh tender herbs (such as mint, dill and/or flat-leaf parsley)",
+            "3 ounces feta in brine, cubed (½-inch, about ⅔ cup), divided"
+        ],
+        "Instructions": [
+            "Preheat oven to 450°F. Line a large rimmed baking sheet with parchment paper.",
+            "Toss 6 cups cauliflower, the sliced bell pepper, 1 tablespoon oil, ¼ teaspoon salt and ¼ teaspoon pepper together in a large bowl until well coated. Spread in an even layer on the prepared baking sheet. Roast until the cauliflower is just tender and golden brown in some spots, about 20 minutes. Let cool for 5 minutes.",
+            "Meanwhile, whisk 2 tablespoons lemon juice, the grated garlic, 2 teaspoons honey, ½ teaspoon mustard and the remaining 4 tablespoons oil, ¼ teaspoon salt and ¼ teaspoon pepper together in a small bowl until emulsified.",
+            "Transfer the roasted cauliflower mixture to a large serving bowl; add 2 cups salad greens, ½ cup onion, ¼ cup chopped herbs and ⅓ cup feta. Drizzle with vinaigrette just before serving; toss to combine, then top with the remaining ⅓ cup feta."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/lemon-champagne-vinaigrette-11827978": {
+        "URL": "https://www.eatingwell.com/lemon-champagne-vinaigrette-11827978",
+        "Title": "Lemon-Champagne Vinaigrette",
+        "Description": "Bright, zesty and endlessly versatile, this quick lemon-champagne vinaigrette brings fresh flavor to anything it touches.",
+        "Ingredients": [
+            "¼ cup extra-virgin olive oil",
+            "2 tablespoons champagne vinegar",
+            "1 teaspoon grated lemon zest",
+            "2 tablespoons lemon juice",
+            "1 tablespoon finely chopped shallot",
+            "¼ teaspoon salt",
+            "¼ teaspoon ground pepper"
+        ],
+        "Instructions": [
+            "Combine ¼ cup oil, 2 tablespoons vinegar, 1 teaspoon lemon zest, 2 tablespoons lemon juice, 1 tablespoon chopped shallot, ¼ teaspoon salt and ¼ teaspoon pepper in a 6-ounce jar or other container. Secure the lid and shake vigorously until well combined, about 20 seconds."
+        ],
+        "Total_Time_Raw": "PT5M"
+    },
+    "https://www.eatingwell.com/baked-lemon-pepper-salmon-11817802": {
+        "URL": "https://www.eatingwell.com/baked-lemon-pepper-salmon-11817802",
+        "Title": "Baked Lemon-Pepper Salmon",
+        "Description": "This baked lemon-pepper salmon is a bright, no-fuss recipe that’s perfect for a quick weeknight dinner. Pair this salmon with roasted vegetables for dinner.",
+        "Ingredients": [
+            "4 (5-ounce) skinless salmon fillets",
+            "1 tablespoon lemon-pepper seasoning",
+            "½ teaspoon garlic powder",
+            "¼ teaspoon salt",
+            "8 lemon slices (⅛-inch thick; from 1 large lemon)",
+            "1 tablespoon extra-virgin olive oil",
+            "2 teaspoons chopped fresh dill"
+        ],
+        "Instructions": [
+            "Preheat oven to 400°F. Line a large rimmed baking sheet with parchment paper.",
+            "Pat 4 salmon fillets dry; sprinkle both sides with 1 tablespoon lemon-pepper, ½ teaspoon garlic powder and ¼ teaspoon salt. Arrange 8 lemon slices in a single layer on the prepared baking sheet; place the salmon fillets on top. Drizzle the salmon with 1 tablespoon oil.",
+            "Bake until the salmon flakes easily with a fork, about 14 minutes. Sprinkle with 2 teaspoons dill. Recipe developed by Jasmine Smith"
+        ],
+        "Total_Time_Raw": "PT25M"
+    },
+    "https://www.eatingwell.com/kale-pineapple-drink-11831925": {
+        "URL": "https://www.eatingwell.com/kale-pineapple-drink-11831925",
+        "Title": "This Kale-Pineapple Drink Is Packed with Potassium to Support Healthy Blood Pressure",
+        "Description": "This refreshing tropical kale-pineapple juice shows just how versatile kale can be. Blanching the greens softens their bitterness and preserves the color.",
+        "Ingredients": [
+            "2 large curly kale leaves, stemmed and torn into large pieces (about 2 cups)",
+            "1½ cups chopped fresh pineapple (about 7 ounces)",
+            "1½ cups unsweetened coconut water",
+            "Ice for serving (optional)"
+        ],
+        "Instructions": [
+            "Bring a large saucepan of water to a boil over high heat. Prepare a bowl of ice water; place near the stove. Add torn kale to the boiling water; cook just until vibrant green and tender, 1 to 2 minutes. Using a spider or slotted spoon, transfer the kale to the ice bath. Let stand until cooled, about 2 minutes. Drain well and gently squeeze with your hands to remove excess liquid.",
+            "Transfer the blanched kale to a blender. Add 1½ cups pineapple and 1½ cups coconut water. Blend until completely smooth, about 1 minute.",
+            "If desired, fill 2 glasses with ice. Pour the juice into the glasses and serve. Recipe developed by Jasmine Smith"
+        ],
+        "Total_Time_Raw": "PT10M"
+    },
+    "https://www.eatingwell.com/focaccia-sandwich-11832707": {
+        "URL": "https://www.eatingwell.com/focaccia-sandwich-11832707",
+        "Title": "These Focaccia Sandwiches Will Transport You to Italy",
+        "Description": "From a tomato-mozzarella version to a fig and goat cheese version, these Italian-inspired focaccia sandwiches are an easy lunch idea.",
+        "Ingredients": [
+            "1 (8.5-ounce) loaf focaccia, cut into 4 pieces, sliced horizontally and toasted",
+            "2 tablespoons pesto",
+            "4 (0.5-ounce) slices cured meat, such as prosciutto, salami or capicola ",
+            "4 (1-ounce) slices fresh mozzarella cheese",
+            "1 medium tomato, sliced",
+            "4 teaspoons balsamic glaze",
+            "1 (8.5-ounce) loaf focaccia, cut into 4 pieces, sliced horizontally and toasted",
+            "4 (0.5-ounce) slices cured meat, such as prosciutto, salami or capicola ",
+            "3 ounces goat cheese",
+            "2 tablespoons fig jam",
+            "1 cup arugula",
+            "2 teaspoons balsamic glaze"
+        ],
+        "Instructions": [
+            "To make Tomato, Mozzarella &amp; Pesto Sandwich: Place toasted focaccia slices on a cutting board. Spread 1½ teaspoons pesto on 4 focaccia slices. Top each with 1 slice meat and 1 slice mozzarella. Top evenly with sliced tomatoes. Drizzle each with 1 teaspoon balsamic glaze. Top each with a remaining focaccia slice. Cut in half and serve.",
+            "To make Fig &amp; Goat Cheese Sandwich: Place toasted focaccia slices on a cutting board. Divide 3 ounces goat cheese among 4 focaccia slices; spread to cover. Top each with 1½ teaspoons fig jam. Top each with 1 slice meat and ¼ cup arugula. Drizzle each with ½ teaspoon balsamic glaze. Top each with a remaining focaccia slice. Cut in half and serve."
+        ],
+        "Total_Time_Raw": "PT10M"
+    },
+    "https://www.eatingwell.com/two-ingredient-dough-11830933": {
+        "URL": "https://www.eatingwell.com/two-ingredient-dough-11830933",
+        "Title": "Two-Ingredient Dough",
+        "Description": "This dough comes together with two ingredients: self-rising flour and strained, Greek-style yogurt. Use this dough recipe to make pizza, bagels or pretzel bites.",
+        "Ingredients": [
+            "1¼ cups self-rising flour",
+            "1 cup low-fat plain strained (Greek-style) yogurt"
+        ],
+        "Instructions": [
+            "To make dough by hand: Place 1¼ cups self-rising flour in a large bowl. Add 1 cup yogurt and stir with a fork until a shaggy dough forms. Knead the dough on a lightly floured surface until smooth, about 8 minutes. Add a few tablespoons water if the dough seems dry or a few tablespoons flour if it is sticky.",
+            "To make the dough in a stand mixer: Place 1¼ cups self-rising flour in a stand mixer fitted with the dough hook. Add 1 cup yogurt and mix at low speed until a smooth dough forms, 3 to 4 minutes. Add a few tablespoons water if the dough seems dry or a few tablespoons flour if it is sticky.",
+            "To make the dough in a food processor: Place 1¼ cups self-rising flour in a food processor fitted with the steel blade. Add 1 cup yogurt and pulse until a smooth dough forms, about 15 pulses. Add a few tablespoons water if the dough seems dry or a few tablespoons flour if it is sticky."
+        ],
+        "Total_Time_Raw": "PT15M"
+    },
+    "https://www.eatingwell.com/everything-bagel-tuna-salad-11822697": {
+        "URL": "https://www.eatingwell.com/everything-bagel-tuna-salad-11822697",
+        "Title": "Everything Bagel Tuna Salad",
+        "Description": "This Everything Bagel Tuna Salad gives the classic lunch a flavorful upgrade. Capers and everything bagel seasoning bring a salty punch that pairs with tuna.",
+        "Ingredients": [
+            "3 (5-ounce) cans no-salt-added solid white tuna in water, drained and flaked ",
+            "⅓ cup mayonnaise",
+            "⅓ cup whole-milk plain strained (Greek-style) yogurt",
+            "⅓ cup finely chopped red onion",
+            "¼ cup finely chopped celery",
+            "3 tablespoons capers, rinsed",
+            "2 tablespoons no-salt-added everything bagel seasoning, plus more for garnish",
+            "1 tablespoon Dijon mustard",
+            "1 tablespoon lemon juice",
+            "¼ teaspoon salt"
+        ],
+        "Instructions": [
+            "Stir flaked drained tuna, ⅓ cup each mayonnaise, yogurt and chopped onion, ¼ cup chopped celery, the rinsed capers, 2 tablespoons everything bagel seasoning, 1 tablespoon mustard, 1 tablespoon lemon juice and ¼ teaspoon salt together in a medium bowl until well combined. Garnish with additional everything bagel seasoning, if desired. Recipe developed by Marianne Williams"
+        ],
+        "Total_Time_Raw": "PT10M"
+    },
+    "https://www.eatingwell.com/crispy-smashed-beets-with-feta-pistachios-11846821": {
+        "URL": "https://www.eatingwell.com/crispy-smashed-beets-with-feta-pistachios-11846821",
+        "Title": "Crispy Smashed Beets with Feta &amp; Pistachios ",
+        "Description": "These crispy smashed beets are a flavorful side dish and are topped with tangy feta, crunchy pistachios and a drizzle of honey.",
+        "Ingredients": [
+            "2 (8.8-ounce) packages cooked whole beets",
+            "1 tablespoon cornstarch",
+            "¼ teaspoon ground pepper",
+            "¼ teaspoon salt",
+            "2 tablespoons extra-virgin olive oil",
+            "1 tablespoon honey",
+            "¼ cup crumbled feta cheese",
+            "2 tablespoons chopped salted, roasted pistachios",
+            "2 tablespoons chopped fresh dill or mint"
+        ],
+        "Instructions": [
+            "Preheat oven to broil with a rack in middle position. Line a large rimmed baking sheet with foil; coat foil with cooking spray.",
+            "Slice beets into ½-inch-thick rounds. Pat dry with a paper towel. Transfer the beet rounds to a large bowl; toss with 1 tablespoon cornstarch, ¼ teaspoon pepper and ¼ teaspoon salt until evenly coated. Arrange the beets in a single layer on the prepared baking sheet. Using the bottom of a Mason jar or sturdy glass, press on each beet to flatten it, but keep it intact. Drizzle the beets evenly with 2 tablespoons oil.",
+            "Broil until the edges are crispy and browned, 13 to 16 minutes, rotating the pan front to back halfway through.",
+            "Transfer the beets to a serving platter. Drizzle with 1 tablespoon honey; top with ¼ cup feta and 2 tablespoons each pistachios and herbs. Serve warm or at room temperature."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/marry-me-white-bean-soup-11808287": {
+        "URL": "https://www.eatingwell.com/marry-me-white-bean-soup-11808287",
+        "Title": "Marry Me White Bean Soup",
+        "Description": "This Marry Me White Bean Soup borrows inspiration from the beloved Marry Me Chicken recipe with a combination of sun-dried tomatoes, garlic, cream and Parmesan.",
+        "Ingredients": [
+            "2 tablespoons unsalted butter",
+            "1 medium yellow onion, finely chopped (about 1 cup)",
+            "3 cloves garlic, finely chopped (about 1 tablespoon)",
+            "1 teaspoon dried oregano",
+            "½ teaspoon salt",
+            "¼ teaspoon crushed red pepper",
+            "½ cup chopped drained julienne-cut sun-dried tomatoes in oil with herbs",
+            "1 tablespoon lemon juice",
+            "2 (15-ounce) cans no-salt-added white beans (such as great northern or cannellini), rinsed",
+            "4 cups unsalted vegetable broth",
+            "½ cup heavy cream",
+            "2 tablespoons cream cheese, softened",
+            "1 (5-ounce) package baby spinach (about 5 packed cups)",
+            "1¼ cups grated Parmesan cheese, divided",
+            "¼ cup chopped fresh basil"
+        ],
+        "Instructions": [
+            "Melt 2 tablespoons butter in a large Dutch oven over medium heat. Add chopped onion; cook, stirring occasionally, until softened, about 3 minutes. Add chopped garlic, 1 teaspoon oregano, ½ teaspoon salt and ¼ teaspoon crushed red pepper; cook, stirring constantly, until fragrant, about 20 seconds. Add ½ cup chopped sun-dried tomatoes; cook, stirring, until slightly darkened, about 2 minutes. Add 1 tablespoon lemon juice; stir until absorbed, about 20 seconds.",
+            "Stir in rinsed beans and 4 cups broth. Bring to a lively simmer over medium-high heat. Stir in ½ cup cream and 2 tablespoons cream cheese; cook, stirring, until the cream cheese is melted, 2 to 3 minutes.",
+            "Add 5 ounces spinach; cook, stirring occasionally, until wilted, about 2 minutes. Remove from heat. Add 1 cup Parmesan; stir until melted.",
+            "Divide the soup among 6 bowls. Top with ¼ cup basil and the remaining ¼ cup Parmesan."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/white-bean-skillet-11831007": {
+        "URL": "https://www.eatingwell.com/white-bean-skillet-11831007",
+        "Title": "This White Bean Skillet Is the 30-Minute, High-Protein Dinner You Need",
+        "Description": "This easy white bean skillet brings together beans, canned tomatoes and fresh greens for a comforting plant-based dinner.",
+        "Ingredients": [
+            "3 tablespoons extra-virgin olive oil, divided",
+            "1 medium yellow onion, finely chopped (about 1½ cups)",
+            "3 tablespoons no-salt-added tomato paste",
+            "3 medium cloves garlic, finely chopped (1 tablespoon)",
+            "1½ teaspoons Italian seasoning",
+            "½ teaspoon salt plus ⅛ teaspoon, divided",
+            "¼ teaspoon crushed red pepper, plus more for garnish",
+            "1 (28-ounce) can no-salt-added whole peeled tomatoes, undrained and crushed ",
+            "1 (15-ounce) can no-salt-added white beans, rinsed",
+            "1 (5-ounce) package baby spinach",
+            "1 ounce Parmesan cheese, shaved and crumbled (about ⅓ cup)",
+            "8 slices whole-wheat baguette (½ ounce each), toasted"
+        ],
+        "Instructions": [
+            "Heat 1 tablespoon oil in a large skillet over medium heat. Add chopped onion; cook, stirring occasionally, until softened, about 5 minutes. Add 3 tablespoons tomato paste; cook, stirring constantly, until fragrant and deepened in color, 1 to 2 minutes. Stir in chopped garlic, 1½ teaspoons Italian seasoning, ½ teaspoon salt and ¼ teaspoon crushed red pepper; cook, stirring often, until fragrant, about 30 seconds.",
+            "Add crushed tomatoes and rinsed beans; bring to a lively simmer over medium heat. Cook, stirring occasionally, until slightly thickened, about 3 minutes. Fold in 5 ounces spinach; cook, stirring constantly, until bright green and just wilted, 2 to 3 minutes. Remove from heat and stir in the remaining 2 tablespoons oil. Sprinkle with the remaining ⅛ teaspoon salt.",
+            "Divide the mixture among 4 bowls. Sprinkle with crumbled Parmesan. Garnish with additional crushed red pepper, if desired. Serve with toasted baguette slices."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/smashed-green-beans-with-parmesan-balsamic-11844072": {
+        "URL": "https://www.eatingwell.com/smashed-green-beans-with-parmesan-balsamic-11844072",
+        "Title": "Smashed Green Beans with Parmesan &amp; Balsamic",
+        "Description": "These smashed green beans are topped with Parmesan cheese and a drizzle of balsamic glaze for an easy, flavorful side dish.",
+        "Ingredients": [
+            "1 pound green beans, trimmed",
+            "1 tablespoon extra-virgin olive oil",
+            "¼ teaspoon ground pepper",
+            "⅛ teaspoon salt",
+            "⅓ cup grated Parmesan cheese",
+            "2 tablespoons minced garlic",
+            "1½ tablespoons balsamic glaze"
+        ],
+        "Instructions": [
+            "Preheat oven to 450°F with rack in upper third position. Toss trimmed green beans, 1 tablespoon oil, ¼ teaspoon pepper and ⅛ teaspoon salt together on a large rimmed baking sheet until fully coated; arrange in an even layer.",
+            "Roast until browned, about 10 minutes. Using a rolling pin or the bottom of a measuring cup, smash the beans.",
+            "Combine ⅓ cup Parmesan and 2 tablespoons garlic in a small bowl. Sprinkle over the beans. Roast until the cheese is melted and crisp, 8 to 10 minutes.",
+            "Transfer to a large serving platter. Drizzle with 1½ tablespoons balsamic glaze."
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/cheesy-bean-toast-11812036": {
+        "URL": "https://www.eatingwell.com/cheesy-bean-toast-11812036",
+        "Title": "The 4-Ingredient Breakfast You Should Make on Busy Mornings",
+        "Description": "This four-ingredient toast is perfect for using up leftover refried beans. Any salsa works well here, so you can adjust to your spice preferences.",
+        "Ingredients": [
+            "1 slice whole-grain bread, toasted",
+            "¼ cup refried beans, warmed",
+            "1 slice Cheddar cheese (1 oz.)",
+            "1 tablespoon salsa"
+        ],
+        "Instructions": [
+            "Preheat broiler. Place 1 toast slice on a small baking sheet.",
+            "Top the toast with ¼ cup warmed refried beans and 1 slice cheese. Broil until the cheese is melted, 1 to 2 minutes. Top with 1 tablespoon salsa."
+        ],
+        "Total_Time_Raw": "PT5M"
+    },
+    "https://www.eatingwell.com/turmeric-ginger-chia-tonic-11831832": {
+        "URL": "https://www.eatingwell.com/turmeric-ginger-chia-tonic-11831832",
+        "Title": "This Turmeric-Ginger Chia Tonic Is Good for Your Gut",
+        "Description": "This tonic is good for your gut health thanks to the fiber in the chia seeds. Fresh orange juice adds brightness, while ginger and turmeric bring warming spice.",
+        "Ingredients": [
+            "1 medium navel orange, juiced (about ¼ cup)",
+            "1 teaspoon grated fresh ginger (from ½-inch piece)",
+            "1 teaspoon grated fresh turmeric (from 1-inch piece)",
+            "2 cups cold water",
+            "2 tablespoons chia seeds"
+        ],
+        "Instructions": [
+            "In a small microwave-safe bowl, combine orange juice, 1 teaspoon ginger and 1 teaspoon turmeric. Microwave on High until the mixture is gently simmering, 30 to 45 seconds.",
+            "Divide the hot mixture evenly between 2 (12-ounce) heatproof glasses (about 2 tablespoons each). Stir 1 cup cold water and 1 tablespoon chia seeds into each glass. Stir until the chia seeds are suspended in the mixture, about 30 seconds."
+        ],
+        "Total_Time_Raw": "PT5M"
+    },
+    "https://www.eatingwell.com/broccoli-salad-with-feta-11859978": {
+        "URL": "https://www.eatingwell.com/broccoli-salad-with-feta-11859978",
+        "Title": "15-Minute Broccoli Salad with Feta",
+        "Description": "Bright, crunchy and ready in just 15 minutes, this broccoli salad features bell peppers, cucumbers and feta tossed in a fresh lemony dressing.",
+        "Ingredients": [
+            "¼ cup lemon juice (from 1 large lemon)",
+            "¼ cup extra-virgin olive oil",
+            "1 large clove garlic, minced (about 1½ teaspoons)",
+            "1 teaspoon dried oregano",
+            "¼ teaspoon ground pepper, plus more for garnish",
+            "¼ teaspoon salt",
+            "5 cups chopped broccoli florets",
+            "1 cup chopped red bell pepper",
+            "¾ cup thinly sliced red onion",
+            "2 small Persian cucumbers, sliced into half-moons (about 1¼ cups)",
+            "¼ cup crumbled feta cheese"
+        ],
+        "Instructions": [
+            "Whisk ¼ cup lemon juice, ¼ cup oil, the minced garlic, 1 teaspoon oregano, ¼ teaspoon pepper and ¼ teaspoon salt together in a medium serving bowl until well combined.",
+            "Add 5 cups broccoli, 1 cup bell pepper, ¾ cup onion and the sliced cucumbers; toss until evenly coated.",
+            "Top with ¼ cup feta. Garnish with additional pepper, if desired."
+        ],
+        "Total_Time_Raw": "PT15M"
+    },
+    "https://www.eatingwell.com/pecan-pie-butter-11830332": {
+        "URL": "https://www.eatingwell.com/pecan-pie-butter-11830332",
+        "Title": "Pecan Pie Butter",
+        "Description": "This Pecan Pie Butter captures all the flavors of the classic dessert in a rich, spreadable form. It’s perfect slathered on warm biscuits, pancakes or toast.",
+        "Ingredients": [
+            "8 tablespoons unsalted butter, softened, divided",
+            "½ cup pecan halves",
+            "2½ tablespoons packed dark brown sugar",
+            "½ teaspoon salt, divided",
+            "½ teaspoon ground cinnamon",
+            "⅛ teaspoon ground nutmeg",
+            "1 teaspoon vanilla extract"
+        ],
+        "Instructions": [
+            "Melt 1 tablespoon butter in a medium nonstick skillet over medium heat. Add ½ cup pecan halves; cook, stirring often, until toasted, 1 to 2 minutes. Add 2½ tablespoons brown sugar, ¼ teaspoon salt, ½ teaspoon cinnamon and ⅛ teaspoon nutmeg; cook, stirring constantly, until the sugar melts, darkens slightly and begins to coat the pecans, 1 to 2 minutes. Spread the mixture on a parchment-lined plate or baking sheet and let cool completely, about 15 minutes.",
+            "Transfer the cooled pecan mixture to a mini food processor. Pulse until finely ground and starting to become creamy, about 1 minute, stopping to scrape down the sides as needed. Add the remaining 7 tablespoons softened butter, 1 teaspoon vanilla and the remaining ¼ teaspoon salt; process until blended and spreadable, about 30 seconds.",
+            "Transfer to a jar or airtight container. Serve at room temperature or slightly chilled. Recipe developed by Marianne Williams"
+        ],
+        "Total_Time_Raw": "PT30M"
+    },
+    "https://www.eatingwell.com/raspberry-mango-chia-seed-smoothie-11859399": {
+        "URL": "https://www.eatingwell.com/raspberry-mango-chia-seed-smoothie-11859399",
+        "Title": "This Creamy Raspberry-Mango Chia Seed Smoothie Is Packed with 11 Grams of Fiber",
+        "Description": "This creamy smoothie delivers sweet tropical flavors, with frozen mango blending with raspberries and coconut milk for a thick, frosty base.",
+        "Ingredients": [
+            "1½ cups frozen chopped mango",
+            "1½ cups refrigerated unsweetened coconut milk",
+            "½ cup frozen raspberries",
+            "½ cup whole-milk plain strained (Greek-style) yogurt",
+            "⅓ cup chopped pitted dried dates (about 2 ounces)",
+            "1½ tablespoons chia seeds",
+            "1 tablespoon vanilla extract"
+        ],
+        "Instructions": [
+            "Combine 1½ cups mango, 1½ cups coconut milk, ½ cup raspberries, ½ cup yogurt, ⅓ cup dates, 1½ tablespoons chia seeds and 1 tablespoon vanilla in a blender; process until smooth and creamy, about 2 minutes.",
+            "Divide between 2 (16-ounce) glasses."
+        ],
+        "Total_Time_Raw": "PT5M"
+    }
 }
-# 基礎 URL
-BASE_URL = 'https://www.eatingwell.com'
-# Quick & Easy 頁面的固定路徑
-RECIPES_BASE_PATH = '/recipes/18258/cooking-methods-styles/quick-easy/'
-
-# --- 輔助函式: 取得食譜連結 ---
-
-def get_all_recipe_links(max_pages=5):
-    """從 Quick & Easy 分頁頁面爬取初始連結。"""
-    all_links = set()
-    
-    # 設置最大分頁數，以便抓取更多 Quick & Easy 列表的連結
-    for page_num in range(1, max_pages + 1):
-        list_url = f"{BASE_URL}{RECIPES_BASE_PATH}?page={page_num}"
-        # print(f"-> 正在爬取 Quick & Easy 分頁 (Page {page_num}): {list_url}")
-        
-        try:
-            response = requests.get(list_url, headers=HEADERS, timeout=10)
-            response.raise_for_status() 
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            recipe_card_links = soup.select('a.mntl-document-card') 
-            
-            if not recipe_card_links and page_num == 1:
-                 # 這裡可能需要調整 max_pages 的值
-                 pass
-            elif not recipe_card_links:
-                 break
-
-            for link_tag in recipe_card_links:
-                if 'href' in link_tag.attrs:
-                    raw_url = link_tag['href'].split('?')[0] 
-
-                    if not raw_url.startswith('http'):
-                        full_url = BASE_URL + raw_url
-                    else:
-                        full_url = raw_url
-                        
-                    all_links.add(full_url)
-            
-            time.sleep(1) 
-
-        except requests.exceptions.RequestException:
-            break
-            
-    return list(all_links)
-
-# --- 核心函式: 爬取單個頁面資料 (包含食譜提取和嵌套連結查找) ---
-
-def scrape_page_content(page_url):
-    """
-    1. 嘗試提取單一食譜 (JSON-LD 優先)。
-    2. 如果失敗，則嘗試提取頁面中所有嵌套的 'View Recipe' 連結。
-    
-    :return: (dict or None, list) -> (食譜數據, 嵌套連結列表)
-    """
-    
-    try:
-        response = requests.get(page_url, headers=HEADERS, timeout=15)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # --- 1. 嘗試從 JSON-LD 提取單一食譜 ---
-        schema_script = soup.find('script', {'type': 'application/ld+json'})
-        if schema_script:
-            try:
-                data = json.loads(schema_script.text)
-                data_list = data if isinstance(data, list) else [data]
-                
-                for item in data_list:
-                    item_type = item.get("@type", [])
-                    if (isinstance(item_type, list) and 'Recipe' in item_type) or (item_type == "Recipe"):
-                        
-                        ingredients = item.get("recipeIngredient", [])
-                        # 檢查：只有當成功提取到成分時，才認為這是有效的食譜數據
-                        if ingredients and len(ingredients) > 0:
-                            # 提取所有核心數據
-                            title = item.get("name", "N/A")
-                            description = item.get("description", "N/A")
-                            instructions_raw = item.get("recipeInstructions", [])
-                            total_time = item.get("totalTime", "N/A")
-                            
-                            instructions = []
-                            if isinstance(instructions_raw, list):
-                                for step in instructions_raw:
-                                    if isinstance(step, dict) and step.get("text"):
-                                        instructions.append(step["text"].strip())
-                                    elif isinstance(step, str):
-                                        instructions.append(step.strip())
-                            
-                            print(f"   ✅ JSON-LD 提取成功。Title: {title}")
-                            return {
-                                "URL": page_url,
-                                "Title": title,
-                                "Description": description,
-                                "Ingredients": ingredients,
-                                "Instructions": instructions,
-                                "Total_Time_Raw": total_time 
-                            }, [] # 成功提取食譜，不返回新的嵌套連結
-
-            except json.JSONDecodeError:
-                # print("   ❌ 錯誤: 無法解析 JSON-LD 腳本。")
-                pass
-
-        # --- 2. 如果不是單一食譜，嘗試提取所有嵌套的 'View Recipe' 連結 ---
-        
-        # 該選擇器針對 ListScTemplate 頁面中的 "View Recipe" 按鈕
-        nested_links = soup.select('.mntl-sc-block-universal-featured-link--button a.mntl-sc-block-universal-featured-link__link')
-        new_links = set()
-        
-        if nested_links:
-            # 這是文章列表頁面，提取所有內嵌的食譜連結
-            # 提取文章標題作為識別
-            article_title_tag = soup.select_one('h1.article-heading') 
-            article_title = article_title_tag.text.strip() if article_title_tag else "N/A Article"
-
-            print(f"   🔎 發現文章列表頁面: {article_title}")
-            for link_tag in nested_links:
-                if 'href' in link_tag.attrs:
-                    raw_url = link_tag['href'].split('?')[0]
-                    
-                    if not raw_url.startswith('http'):
-                        full_url = BASE_URL + raw_url
-                    else:
-                        full_url = raw_url
-                    
-                    new_links.add(full_url)
-            
-            print(f"   🔗 提取到 {len(new_links)} 個嵌套食譜連結。")
-            return None, list(new_links) # 返回空數據和新的連結列表
-
-        # --- 3. 如果既不是食譜也不是文章列表 (結構不匹配或空頁面) ---
-        
-        # print("   ❌ 提取失敗: 非食譜/非文章列表。")
-        return None, []
-
-    except requests.exceptions.RequestException as e:
-        # print(f"   ❌ 提取 {page_url} 時發生請求錯誤: {e}")
-        return None, []
-    except Exception as e:
-        # print(f"   ❌ 提取 {page_url} 時發生嚴重錯誤: {e}")
-        return None, []
-
-# --- 主程式執行 ---
-
-def main():
-    # 設置初始爬取分頁數量 (為確保廣度，我們多抓幾頁的初始連結)
-    MAX_INITIAL_PAGES = 5 
-    
-    if not os.path.exists('data'):
-        os.makedirs('data')
-        
-    # 1. 取得所有初始連結 (包含單一食譜和文章列表)
-    initial_links = get_all_recipe_links(max_pages=MAX_INITIAL_PAGES)
-    
-    # 2. 初始化待處理隊列和已處理集合
-    # 使用 set 儲存 URL，避免重複爬取
-    queue = initial_links
-    visited_urls = set(initial_links)
-    all_recipes_dict = {}
-    
-    total_processed = 0
-    total_queued = len(queue)
-    
-    # 3. 廣度優先爬取循環
-    while queue:
-        url = queue.pop(0)
-        total_processed += 1
-        
-        print(f"\n--- 處理進度 {total_processed}/{total_queued} (待處理: {len(queue)}) ---")
-        
-        # 進行網頁提取
-        recipe, nested_links = scrape_page_content(url)
-        
-        if recipe:
-            # 成功提取單一食譜，存儲
-            all_recipes_dict[url] = recipe
-        
-        if nested_links:
-            # 發現新的嵌套連結，將其加入隊列
-            for link in nested_links:
-                if link not in visited_urls:
-                    visited_urls.add(link)
-                    queue.append(link)
-                    total_queued += 1 # 更新總計數
-        
-        # 禮貌延遲
-        time.sleep(1 + (total_processed % 5) * 0.2) 
-
-    # 4. 儲存結果到 JSON 檔案
-    output_filename = 'data/eatingwell_quick_easy_recipes_full.json' 
-    
-    if all_recipes_dict:
-        try:
-            with open(output_filename, 'w', encoding='utf-8') as f:
-                json.dump(all_recipes_dict, f, ensure_ascii=False, indent=4)
-            print(f"\n🎉 爬蟲任務完成！共收集 {len(all_recipes_dict)} 份食譜。")
-            print(f"資料已儲存到 {output_filename}")
-        except Exception as e:
-            print(f"\n❌ 儲存檔案時發生錯誤: {e}")
-    else:
-         print("\n❌ 爬蟲完成，但沒有成功提取任何食譜資料。")
-
-if __name__ == '__main__':
-    main()
