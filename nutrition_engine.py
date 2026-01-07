@@ -1,48 +1,54 @@
 import re
 
-def get_weight(quantity_str, unit, food_name):
+def parse_ingredient_text(text):
     """
-    將食譜中的數量與單位轉換為『克 (g)』
+    將 "1 1/2 cups chopped kale" 解析為 ("1.5", "cup", "chopped kale")
     """
-    # 1. 處理分數 (例如 1 1/2 -> 1.5)
-    try:
-        if '/' in quantity_str:
-            parts = quantity_str.split()
-            res = 0.0
-            for p in parts:
-                if '/' in p:
-                    num, den = p.split('/')
-                    res += float(num) / float(den)
-                else:
-                    res += float(p)
-            qty = res
-        else:
-            qty = float(quantity_str)
-    except:
-        qty = 1.0 # 預設為 1
+    # 處理常見分數符號
+    text = text.replace('½', '0.5').replace('¼', '0.25').replace('¾', '0.75').replace('1½', '1.5')
+    
+    # 匹配數字(含分數) + 單位 + 食材名
+    pattern = r"([0-9\/\.\s]+)?\s*(cup|tablespoon|tbsp|teaspoon|tsp|ounce|oz|pound|lb|clove|slice|medium|small|large|pinch)s?\b\s*(.*)"
+    match = re.search(pattern, text, re.IGNORECASE)
+    
+    if match:
+        qty = match.group(1).strip() if match.group(1) else "1"
+        unit = match.group(2).strip().lower() if match.group(2) else "unit"
+        name = match.group(3).strip()
+        name = re.sub(r"^(of\s|s\s)", "", name).strip()
+        return qty, unit, name
+    return "1", "unit", text
 
-    # 2. 單位換算表 (以克為基準)
+def get_weight(qty_str, unit, item_name):
+    """
+    依據單位與數量換算為公克 (g)
+    """
+    # 簡單的分數轉換 (1 1/2 -> 1.5)
+    try:
+        if ' ' in qty_str:
+            parts = qty_str.split()
+            qty = float(parts[0]) + (eval(parts[1]) if '/' in parts[1] else float(parts[1]))
+        elif '/' in qty_str:
+            qty = eval(qty_str)
+        else:
+            qty = float(qty_str)
+    except:
+        qty = 1.0
+
+    # 基礎密度換算表 (單位 -> g)
     unit_map = {
-        'cup': 240,
-        'tablespoon': 15, 'tbsp': 15,
-        'teaspoon': 5, 'tsp': 5,
-        'ounce': 28.35, 'oz': 28.35,
-        'pound': 453.6, 'lb': 453.6,
-        'clove': 5, # 蒜瓣預設
-        'medium': 150, # 假設一個中型蔬果 150g
-        'small': 100,
-        'large': 250
+        "cup": 240,
+        "tablespoon": 15,
+        "tbsp": 15,
+        "teaspoon": 5,
+        "tsp": 5,
+        "ounce": 28.35,
+        "oz": 28.35,
+        "pound": 453.6,
+        "lb": 453.6,
+        "clove": 5,
+        "slice": 30,
+        "unit": 100 # 預設一個單位 100g，之後會在 main_converter 根據食材修正
     }
     
-    unit = str(unit).lower().strip('s') if unit else 'unit'
-    
-    # 3. 簡單密度調整 (未來可擴充)
-    multiplier = 1.0
-    if 'oil' in food_name.lower():
-        multiplier = 0.92 # 油比水輕
-    
-    base_weight = unit_map.get(unit, 1.0)
-    return qty * base_weight * multiplier
-
-# 測試
-# print(get_weight("1 1/2", "tablespoons", "olive oil"))
+    return qty * unit_map.get(unit, 1.0)

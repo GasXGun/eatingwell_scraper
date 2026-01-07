@@ -1,15 +1,15 @@
-# 忽略 FooDB 原始數據資料夾
+# 忽略虛擬環境
+venv/
+.venv/
+__pycache__/
+
+# 忽略大型原始數據 (FooDB)
 foodb_2020_04_07_csv/
-
-# 忽略所有 CSV 檔案
 *.csv
-
-# 但我們需要保留這個「瘦身後」的小檔案 (前面加個驚嘆號)
 !simplified_content.csv
 
-# 忽略 Python 快取
-__pycache__/
-*.pyc
+# 忽略 RAG 資料庫索引 (別人執行 build_rag_index.py 會自己產生)
+recipe_vector_db/
 
-# 忽略虛擬環境
-.venv/
+# 忽略系統檔案
+.DS_Store
