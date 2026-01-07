@@ -1,138 +1,26 @@
-# EatingWell Quick & Easy 食譜爬蟲專案 (Recipe Scraper)
+# EatingWell Recipe Nutrition Analyzer
 
-## 簡介
+這個專案能自動抓取 EatingWell 食譜，並結合 **FooDB 資料庫** 進行食材解析與營養成分轉換（熱量、蛋白質、脂肪、碳水、纖維等）。
 
-此專案是使用 Python 實作的網頁爬蟲程式，專門用於抓取 [EatingWell 網站](https://www.eatingwell.com) 中 **"Quick & Easy Healthy Recipes"** 分類下的所有食譜資料。
+##  檔案功能說明
 
-它採用**遞歸爬取 (Recursive Scraping)** 策略，確保能從文章列表頁面 (例如「20 Anti-Inflammatory Meals...」) 中，深度提取所有內嵌的單一食譜連結，最終建構出一個結構化的 JSON 資料庫 ($\text{Dictionary}$)。
+| 檔案名稱 | 功能描述 |
+| :--- | :--- |
+| **`scraper.py`** | **爬蟲核心**。負責抓取食譜標題、食材、步驟及時間，輸出原始 JSON。 |
+| **`query.py`** | **查詢工具**。用於在終端機快速篩選已下載的食譜（如：找 10 分鐘內的奶昔）。 |
+| **`shrink_data.py`** | **數據瘦身器**。將 700MB+ 的 FooDB `Content.csv` 提取出關鍵營養素，生成輕量化的 `simplified_content.csv`。 |
+| **`nutrition_engine.py`** | **計算引擎**。處理食譜單位（cup, tbsp, oz）到公克 (g) 的轉換邏輯。 |
+| **`main_converter.py`** | **核心轉換程式**。串接所有組件，執行模糊比對 (Fuzzy Match) 並產出最終營養報表。 |
 
-## 💻 環境建置 (Setup)
+##  執行流程
 
-本專案使用 Python 虛擬環境 (`venv`) 隔離依賴，建議使用 $\text{Visual Studio Code (VS Code)}$ 進行開發與執行。
+1. **環境準備**：執行 `pip install pandas thefuzz python-Levenshtein requests beautifulsoup4`。
+2. **獲取食譜**：執行 `python scraper.py` 產出食譜 JSON。
+3. **處理數據庫**：確保 FooDB CSV 檔案在路徑下，執行 `python shrink_data.py`。
+4. **生成營養報告**：執行 `python main_converter.py`。
 
-### 1. 建立專案結構
-
-請先建立以下資料夾與檔案結構：
-
-```
-
-eatingwell\_scraper/
-├── .venv/              \# 虛擬環境資料夾 (執行指令後自動生成)
-├── data/               \# 數據輸出資料夾 (爬蟲結果存放處)
-├── scraper.py          \# 爬蟲核心程式碼
-└── requirements.txt    \# 依賴函式庫清單
-
-````
-
-### 2. 安裝依賴項目
-
-在 VS Code 內開啟終端機 (Terminal)，並執行以下步驟：
-
-#### A. 建立並啟用虛擬環境
-
-```bash
-# 建立虛擬環境
-python -m venv .venv
-# 啟用虛擬環境 (Windows)
-.venv\Scripts\activate
-# 啟用虛擬環境 (macOS/Linux)
-# source .venv/bin/activate
-````
-
-#### B. 撰寫 requirements.txt
-
-請在 `requirements.txt` 檔案中加入以下內容：
-
-```text
-requests
-beautifulsoup4
-pandas
-```
-
-#### C. 安裝函式庫
-
-在**虛擬環境已啟用**的狀態下，執行以下指令：
-
-```bash
-pip install -r requirements.txt
-```
-
------
-
-## 🚀 如何操作 (Usage)
-
-所有核心邏輯都包含在 `scraper.py` 中。
-
-### 1\. 執行爬蟲程式
-
-在啟用的虛擬環境 (`(.venv)`) 中，直接運行 `scraper.py`：
-
-```bash
-python scraper.py
-```
-
-  * **執行時間：** 由於程式會遞歸追蹤連結，整個過程可能需要 **5 - 10 分鐘** (包含禮貌性延遲)。
-  * **進度顯示：** 程式運行時會顯示進度 (`--- 處理進度 X/Y ---`)，並提示是否找到嵌套連結。
-
-### 2\. 爬蟲輸出結果
-
-執行成功後，所有食譜數據將儲存到 `data/` 資料夾中：
-
-  * **檔案名稱：** `eatingwell_quick_easy_recipes_full.json`
-  * **數據量：** 預期收集到約 **460 份**食譜。
-
-### 3\. 分析 (使用 Pandas)
-
-建議您將數據載入到 Pandas DataFrame 進行查詢，這比直接操作 JSON 字典更高效。
-
-```python
-# 載入 Pandas 進行數據分析
-import pandas as pd
-import json
-
-file_path = 'data/eatingwell_quick_easy_recipes_full.json'
-
-with open(file_path, 'r', encoding='utf-8') as f:
-    recipe_dict = json.load(f)
-
-df = pd.DataFrame(recipe_dict).T.reset_index(names='Original_URL')
-
-# 範例：尋找所有包含「salmon」的食譜
-salmon_recipes = df[df['Ingredients'].apply(
-    lambda x: any('salmon' in item.lower() for item in x)
-)]
-
-print(f"找到 {len(salmon_recipes)} 份鮭魚食譜。")
-print(salmon_recipes[['Title', 'Total_Time_Raw']].head())
-
-# 範例：將結果匯出成 CSV
-salmon_recipes.to_csv('data/salmon_recipes_filtered.csv', index=False, encoding='utf-8')
-```
-
------
-
-## 爬蟲與數據成果 (Features & Data)
-
-### 1\. 爬蟲核心功能
-
-  * **目標鎖定：** 精準抓取 EatingWell 的 `/quick-easy/` 分類下的內容。
-  * **遞歸抓取 (BFS)：** 程式能識別並追蹤文章列表頁面 (e.g., 包含 20 份食譜的合集文章)，確保不遺漏任何隱藏在第二層的單一食譜。
-  * **智能數據提取：** 優先使用 **JSON-LD 結構化數據** (Schema.org) 提取食譜詳情，確保數據準確度與穩定性。
-  * **智能過濾機制：** 自動排除所有非單一食譜的網頁 (如：文章列表、廣告頁面)，只儲存具備完整食材和步驟的食譜。
-
-### 2\. Dictionary 資料庫結構 (JSON Output)
-
-最終的 JSON 檔案是以食譜 URL 為鍵的字典。每個 Value 包含以下欄位：
-
-| 欄位名稱 | 數據類型 | 說明 |
-| :--- | :--- | :--- |
-| **URL** | String | 該食譜的完整網址 (作為唯一識別碼) |
-| **Title** | String | 食譜名稱 |
-| **Description** | String | 食譜簡介 |
-| **Ingredients** | List [String] | 食材列表 (每一項為一個字串) |
-| **Instructions** | List [String] | 烹飪步驟 (每一步驟為一個字串) |
-| **Total\_Time\_Raw** | String | 總烹飪時間 (ISO 8601 格式，如 $\text{PT20M}$) |
-
-### 3\. 目前總結
-
-本次爬取已成功收集 **460 份** 來自 EatingWell Quick & Easy 分類的單一食譜數據。
+##  數據處理邏輯 (Workflow)
+1. **食材解析**：利用 Regex 抽離數量、單位與名稱。
+2. **重量換算**：將英制單位依密度換算為公制單位 (g)。
+3. **食材比對**：使用 Levenshtein 距離演算法將食譜食材與 FooDB 食物名稱進行模糊匹配。
+4. **單位修正**：自動偵測並修正 FooDB 中不統一的單位（如 kJ 轉 kcal, mg 轉 g）。

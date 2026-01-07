@@ -1,0 +1,15 @@
+# 忽略 FooDB 原始數據資料夾
+foodb_2020_04_07_csv/
+
+# 忽略所有 CSV 檔案
+*.csv
+
+# 但我們需要保留這個「瘦身後」的小檔案 (前面加個驚嘆號)
+!simplified_content.csv
+
+# 忽略 Python 快取
+__pycache__/
+*.pyc
+
+# 忽略虛擬環境
+.venv/
