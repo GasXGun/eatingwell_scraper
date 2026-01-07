@@ -28,6 +28,21 @@ graph TD
 | **build_rag_index.py** | 建立索引：將食譜文本轉為向量，並存入 Metadata (時間、熱量)。 | ChromaDB / Sentence-Transformers |
 | **query_rag.py** | 智慧介面：支援中文搜尋、時間邏輯過濾與自動結果翻譯。 | RAG / Deep-Translator |
 
+## 如何擴展爬蟲抓取其他類別
+
+目前的 `scraper.py` 預設以 EatingWell 的 `Quick & Easy Recipes` 作為起點。若你想擴展抓取範圍以獲取更多元的食材與食譜數據，請參考以下步驟：
+
+### 1. 尋找目標分類 URL
+前往 [EatingWell 官網](https://www.eatingwell.com/recipes-5271128)，尋找你感興趣的分類頁面。
+* 例如：**Healthy Dinners** (`/category/4262/healthy-dinner-recipes/`)
+* 例如：**Diabetic Diet** (`/category/4268/diabetic-diet-recipes/`)
+
+### 2. 修改起始點變數
+開啟 `scraper.py`，定位至檔案末部的 `main` 區塊或 `base_url` 變數：
+```python
+# 將原有的連結替換為目標分類的連結
+base_url = "[https://www.eatingwell.com/category/xxxx/your-target-category/](https://www.eatingwell.com/category/xxxx/your-target-category/)"
+
 ## 安裝與執行步驟
 
 ### 1. 軟體環境

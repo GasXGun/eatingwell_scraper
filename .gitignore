@@ -3,13 +3,14 @@ venv/
 .venv/
 __pycache__/
 
-# 忽略大型原始數據 (FooDB)
+# 忽略大型原始數據與資料庫 (這些不應上傳)
 foodb_2020_04_07_csv/
 *.csv
 !simplified_content.csv
 
-# 忽略 RAG 資料庫索引 (別人執行 build_rag_index.py 會自己產生)
+# 忽略 AI 向量資料庫
 recipe_vector_db/
 
-# 忽略系統檔案
+# 忽略系統暫存檔
 .DS_Store
+Thumbs.db
