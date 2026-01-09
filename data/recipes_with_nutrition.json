@@ -1806,7 +1806,7 @@
         "Nutrition_Analysis": {
             "Energy": 1527.539632727852,
             "Protein": 28.52736960714286,
-            "Fat": NaN,
+            "Fat": "NaN",
             "Carbohydrate": 41.94151543650794
         }
     },
@@ -3373,7 +3373,7 @@
         "Nutrition_Analysis": {
             "Energy": 4202.23542593634,
             "Protein": 171.69444053571428,
-            "Fat": NaN,
+            "Fat": "NaN",
             "Carbohydrate": 240.29777944444447
         }
     },
